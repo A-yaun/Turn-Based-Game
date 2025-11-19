@@ -692,7 +692,7 @@ public class GameGUI extends JFrame {
         panel.add(hp);
         panel.add(mp);
         
-        if (!isPlayer && isPlayerTeamTurn) {
+        if ((!isPlayer && isPlayerTeamTurn) || (isPlayer && !isPlayerTeamTurn)) {
             panel.setCursor(new Cursor(Cursor.HAND_CURSOR));
             panel.addMouseListener(new java.awt.event.MouseAdapter() {
                 @Override
