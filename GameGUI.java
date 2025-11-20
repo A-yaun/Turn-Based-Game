@@ -160,12 +160,12 @@ public class GameGUI extends JFrame {
 
         JTextArea playStory = new JTextArea(
                 "Long ago, the peaceful village of Eldora was destroyed by the Overlord of Shadows, " +
-                        "leaving five childhood friends as its only survivors. Adrian the Warrior, Jhush the " +
-                        "Assassin, Cyberg the Mage, Rex the Archer, and Clarence the Tank swore a blood oath " +
-                        "to fight as brothers and avenge their fallen home.\n\n" +
-                        "Each trained in their own discipline: strength, speed, magic, precision, and defense, " +
-                        "becoming the last sons of Eldonia. United by brotherhood and destiny, they now battle " +
-                        "together to restore light to the kingdom."
+                "leaving five childhood friends as its only survivors. Adrian the Warrior, Jhush the " +
+                "Assassin, Cyberg the Mage, Rex the Archer, and Clarence the Tank swore a blood oath " +
+                "to fight as brothers and avenge their fallen home.\n\n" +
+                "Each trained in their own discipline: strength, speed, magic, precision, and defense, " +
+                "becoming the last sons of Eldonia. United by brotherhood and destiny, they now battle " +
+                "together to restore light to the kingdom."
         );
         playStory.setForeground(Color.WHITE);
         playStory.setFont(new Font("Serif", Font.PLAIN, 18));
@@ -292,21 +292,41 @@ public class GameGUI extends JFrame {
         panel.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent e) {
+                // Don't allow selection if already have 3 heroes
                 if (count >= 3) {
-                    continueButton.setEnabled(true);
                     return;
                 }
-                if (isPlayerTurn) {
-                    myTeam[count] = hero;
-                    System.out.println("Player selected: " + hero.getName());
+                
+                // Create NEW hero instance
+                Hero newHero;
+                if (hero instanceof Archer) {
+                    newHero = new Archer(hero.getName());
+                } else if (hero instanceof Warrior) {
+                    newHero = new Warrior(hero.getName());
+                } else if (hero instanceof Tank) {
+                    newHero = new Tank(hero.getName());
+                } else if (hero instanceof Assassin) {
+                    newHero = new Assassin(hero.getName());
+                } else if (hero instanceof Mage) {
+                    newHero = new Mage(hero.getName());
                 } else {
-                    enemyTeam[count] = hero;
-                    System.out.println("Enemy selected: " + hero.getName());
+                    return;
                 }
-
+                
+                // Store the new hero
+                if (isPlayerTurn) {
+                    myTeam[count] = newHero;
+                    System.out.println("Player selected: " + newHero.getName());
+                } else {
+                    enemyTeam[count] = newHero;
+                    System.out.println("Enemy selected: " + newHero.getName());
+                }
+                
                 count++;
-
+                
                 if (count == 3) {
+                    continueButton.setEnabled(true);  // Enable continue button
+                    
                     if (isPlayerTurn) {
                         if (isAi) {
                             selectRandomTeamForAI();
@@ -317,7 +337,7 @@ public class GameGUI extends JFrame {
                         } else {
                             isPlayerTurn = false;
                             count = 0;
-                            System.out.println("Now selecting enemy team...");
+                            System.out.println("Player 1 team selected! Now select Player 2 team...");
                         }
                     } else {
                         System.out.println("Both teams ready! Starting battle...");
@@ -328,7 +348,6 @@ public class GameGUI extends JFrame {
             }
         });
     }
-
     private void selectRandomTeamForAI() {
         java.util.Random rand = new java.util.Random();
         Hero[] availableHeroes = {
