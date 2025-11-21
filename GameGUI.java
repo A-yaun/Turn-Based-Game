@@ -408,7 +408,7 @@ public class GameGUI extends JFrame {
             btn.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
             btn.setOpaque(true);
             btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
-            btn.setPreferredSize(new Dimension(130, 45));
+            btn.setPreferredSize(new Dimension(170, 60));
             actionPanel.add(btn);
         }
 
@@ -455,27 +455,41 @@ public class GameGUI extends JFrame {
     }
 
     private void updateSkillButtons() {
-        Hero currentHero;
-        
-        if (isPlayerTeamTurn) {
-            currentHero = myTeam[currentPlayerIndex];
-        } else {
-            currentHero = enemyTeam[currentPlayerIndex];
-        }
-        
-        if (currentHero != null) {
-            skill1Btn.setText(currentHero.skill[0].getSkill_Name());
-            skill1Btn.setEnabled(currentHero.isManaEnough(currentHero.skill[0]));
-            
-            skill2Btn.setText(currentHero.skill[1].getSkill_Name());
-            skill2Btn.setEnabled(currentHero.isManaEnough(currentHero.skill[1]));
-            
-            skill3Btn.setText(currentHero.skill[2].getSkill_Name());
-            skill3Btn.setEnabled(currentHero.isManaEnough(currentHero.skill[2]));
-            
-            basicAttackBtn.setEnabled(true);
-        }
+    Hero currentHero;
+    
+    if (isPlayerTeamTurn) {
+        currentHero = myTeam[currentPlayerIndex];
+    } else {
+        currentHero = enemyTeam[currentPlayerIndex];
     }
+    
+    if (currentHero != null) {
+        
+        Skill skill1 = currentHero.skill[0];
+        skill1Btn.setText("<html><center>" + skill1.getSkill_Name() + 
+                         "<br>DMG: " + skill1.getSkill_Damage() + 
+                         " | MP: " + skill1.getSkill_ManaComp() + "</center></html>");
+        skill1Btn.setEnabled(currentHero.isManaEnough(skill1));
+        
+       
+        Skill skill2 = currentHero.skill[1];
+        skill2Btn.setText("<html><center>" + skill2.getSkill_Name() + 
+                         "<br>DMG: " + skill2.getSkill_Damage() + 
+                         " | MP: " + skill2.getSkill_ManaComp() + "</center></html>");
+        skill2Btn.setEnabled(currentHero.isManaEnough(skill2));
+        
+       
+        Skill skill3 = currentHero.skill[2];
+        skill3Btn.setText("<html><center>" + skill3.getSkill_Name() + 
+                         "<br>DMG: " + skill3.getSkill_Damage() + 
+                         " | MP: " + skill3.getSkill_ManaComp() + "</center></html>");
+        skill3Btn.setEnabled(currentHero.isManaEnough(skill3));
+        
+        
+        basicAttackBtn.setText("<html><center>Basic Attack<br>DMG: 10 | MP: 0</center></html>");
+        basicAttackBtn.setEnabled(true);
+    }
+}
 
     private void selectSkill(int skillIndex) {
         Hero currentHero = myTeam[currentPlayerIndex];
