@@ -435,6 +435,7 @@ public class GameGUI extends JFrame {
         for (int i = 0; i < enemyTeam.length; i++) {
             Hero enemy = enemyTeam[i];
             if (enemy != null && enemy.isAlive()) {
+                System.out.println("Enemy: " + enemy.getName() + " HP: " + enemy.getHp() + " MP: " + enemy.getMp());
                 enemyTeamPanel.add(createBattleHeroPanel(enemy, false, i));
             }
         }
@@ -442,6 +443,7 @@ public class GameGUI extends JFrame {
         for (int i = 0; i < myTeam.length; i++) {
             Hero player = myTeam[i];
             if (player != null && player.isAlive()) {
+                System.out.println("Player: " + player.getName() + " HP: " + player.getHp() + " MP: " + player.getMp());
                 playerTeamPanel.add(createBattleHeroPanel(player, true, i));
             }
         }
@@ -492,7 +494,13 @@ public class GameGUI extends JFrame {
 }
 
     private void selectSkill(int skillIndex) {
-        Hero currentHero = myTeam[currentPlayerIndex];
+        Hero currentHero;
+        
+        if (isPlayerTeamTurn) {
+            currentHero = myTeam[currentPlayerIndex];
+        } else {
+            currentHero = enemyTeam[currentPlayerIndex];
+        }
         
         if (skillIndex < 3 && !currentHero.isManaEnough(currentHero.skill[skillIndex])) {
             battleLogLabel.setText("Not enough mana! Select another skill.");
@@ -507,11 +515,24 @@ public class GameGUI extends JFrame {
     private void selectTarget(Hero target) {
         boolean hasTank = false;
         Hero tankHero = null;
-        for (Hero enemy : enemyTeam) {
-            if (enemy != null && enemy.isAlive() && enemy.isTank()) {
-                hasTank = true;
-                tankHero = enemy;
-                break;
+        
+        if (isPlayerTeamTurn) {
+            // Player is attacking enemy team
+            for (Hero enemy : enemyTeam) {
+                if (enemy != null && enemy.isAlive() && enemy.isTank()) {
+                    hasTank = true;
+                    tankHero = enemy;
+                    break;
+                }
+            }
+        } else {
+            // Enemy is attacking player team
+            for (Hero player : myTeam) {
+                if (player != null && player.isAlive() && player.isTank()) {
+                    hasTank = true;
+                    tankHero = player;
+                    break;
+                }
             }
         }
         
@@ -525,7 +546,13 @@ public class GameGUI extends JFrame {
     }
     
     private void executeAttack() {
-        Hero attacker = myTeam[currentPlayerIndex];
+        Hero attacker;
+        
+        if (isPlayerTeamTurn) {
+            attacker = myTeam[currentPlayerIndex];
+        } else {
+            attacker = enemyTeam[currentPlayerIndex];
+        }
         
         attacker.attack(selectedSkillIndex, selectedTarget);
         
@@ -610,6 +637,21 @@ public class GameGUI extends JFrame {
         }
         
         if (currentPlayerIndex >= 3) {
+            // Add 10 mana to all heroes at the start of each new round
+            System.out.println("=== NEW ROUND - Adding 10 mana to all heroes ===");
+            for (Hero hero : myTeam) {
+                if (hero != null && hero.isAlive()) {
+                    hero.addMana(10);
+                    System.out.println(hero.getName() + " now has " + hero.getMp() + " MP");
+                }
+            }
+            for (Hero hero : enemyTeam) {
+                if (hero != null && hero.isAlive()) {
+                    hero.addMana(10);
+                    System.out.println(hero.getName() + " now has " + hero.getMp() + " MP");
+                }
+            }
+            
             currentPlayerIndex = 0;
             isPlayerTeamTurn = !isPlayerTeamTurn;
             
@@ -665,18 +707,26 @@ public class GameGUI extends JFrame {
         }
         
         if (!playerTeamAlive) {
+            System.out.println("GAME OVER - Enemy Team Wins!");
             battleLogLabel.setText("GAME OVER - Enemy Team Wins!");
             disableAllButtons();
-            Timer gameOverTimer = new Timer(2000, e -> gameCardLayout.show(gamePanel, "GameOverScreen"));
+            Timer gameOverTimer = new Timer(2500, e -> {
+                System.out.println("Switching to GameOverScreen");
+                gameCardLayout.show(gamePanel, "GameoverScreen");
+            });
             gameOverTimer.setRepeats(false);
             gameOverTimer.start();
             return true;
         }
         
         if (!enemyTeamAlive) {
+            System.out.println("VICTORY - Player Team Wins!");
             battleLogLabel.setText("VICTORY - Player Team Wins!");
             disableAllButtons();
-            Timer gameOverTimer = new Timer(2000, e -> gameCardLayout.show(gamePanel, "GameOverScreen"));
+            Timer gameOverTimer = new Timer(2500, e -> {
+                System.out.println("Switching to GameOverScreen");
+                gameCardLayout.show(gamePanel, "GameoverScreen");
+            });
             gameOverTimer.setRepeats(false);
             gameOverTimer.start();
             return true;
@@ -717,12 +767,15 @@ public class GameGUI extends JFrame {
         name.setForeground(Color.WHITE);
         name.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JLabel hp = new JLabel("HP: " + hero.getHp(), SwingConstants.CENTER);
+        int currentHP = hero.getHp();
+        int currentMP = hero.getMp();
+        
+        JLabel hp = new JLabel("HP: " + currentHP, SwingConstants.CENTER);
         hp.setFont(new Font("Serif", Font.BOLD, 16));
         hp.setForeground(isPlayer ? Color.GREEN : Color.RED);
         hp.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JLabel mp = new JLabel("MP: " + hero.getMp(), SwingConstants.CENTER);
+        JLabel mp = new JLabel("MP: " + currentMP, SwingConstants.CENTER);
         mp.setFont(new Font("Serif", Font.BOLD, 16));
         mp.setForeground(isPlayer ? Color.CYAN : Color.BLUE);
         mp.setAlignmentX(Component.CENTER_ALIGNMENT);

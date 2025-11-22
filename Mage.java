@@ -17,9 +17,9 @@ class Mage extends Hero {
 
     public String[] getSkill() {
         return new String[] {
-                skill[1].getSkill_Name(),
-                skill[2].getSkill_Name(),
-                skill[3].getSkill_Name()
+                skill[0].getSkill_Name(),
+                skill[0].getSkill_Name(),
+                skill[2].getSkill_Name()
         };
     }
 

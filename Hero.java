@@ -33,6 +33,11 @@ abstract class Hero {
         return skillNames;
     }
 
+    public void addMana(int amount) {
+        this.mp += amount;
+        System.out.println(this.name + " gained " + amount + " mana. Current MP: " + this.mp);
+    }
+
     public void attack(int skillIndex, Hero target) {
         if (skillIndex == 3) {
             basicAttack(target);
@@ -65,7 +70,6 @@ abstract class Hero {
         System.out.println(this.name + " performs a Basic Attack on "
                 + target.name + " and deals " + damage + " damage.");
         target.hp -= damage;
-
     }
 
     public boolean isAlive() {

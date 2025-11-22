@@ -10,4 +10,18 @@ class Archer extends Hero {
                 new Skill("Peircing Arrow", 80, 100)
         };
     }
+    public String[] getSkill() {
+        return new String[] {
+                skill[0].getSkill_Name(),
+                skill[1].getSkill_Name(),
+                skill[2].getSkill_Name()
+        };
+    }
+    public boolean isTank() {
+        return false;
+    }
+
+    public Skill[] getSkillsArray() {
+        return skill;
+    }
 }
