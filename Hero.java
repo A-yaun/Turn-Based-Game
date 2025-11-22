@@ -17,13 +17,11 @@ abstract class Hero {
         return this.mp >= s.manacomp;
     }
 
-    public boolean isTank() {
-        return false;
-    }
+    public abstract boolean isTank();
+    public abstract double getAttackMultiplier();
+    public abstract int getDefense();
 
-    public Skill[] getSkillsArray() {
-        return skill;
-    }
+    
 
     public String[] getSkills() {
         String[] skillNames = new String[3];
@@ -52,10 +50,14 @@ abstract class Hero {
         Skill chosenSkill = skill[skillIndex];
 
         if (isManaEnough(chosenSkill)) {
+            
+            int baseDamage = (int)(chosenSkill.damage * this.getAttackMultiplier());
+            int actualDamage = Math.max(1, baseDamage - target.getDefense());
+            
             System.out.println(this.name + " uses " + chosenSkill.name + " on "
-                    + target.name + " and deals " + chosenSkill.damage + " damage.");
+                    + target.name + " and deals " + actualDamage + " damage. (Base: " + baseDamage + ", Defense: " + target.getDefense() + ")");
 
-            target.hp -= chosenSkill.damage;
+            target.hp -= actualDamage;
 
             this.mp -= chosenSkill.manacomp;
 
@@ -66,10 +68,11 @@ abstract class Hero {
     }
 
     public void basicAttack(Hero target) {
-        int damage = 10;
+        int baseDamage = 10;
+        int actualDamage = Math.max(1, baseDamage - target.getDefense());
         System.out.println(this.name + " performs a Basic Attack on "
-                + target.name + " and deals " + damage + " damage.");
-        target.hp -= damage;
+                + target.name + " and deals " + actualDamage + " damage. (Base: " + baseDamage + ", Defense: " + target.getDefense() + ")");
+        target.hp -= actualDamage;
     }
 
     public boolean isAlive() {

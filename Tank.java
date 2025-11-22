@@ -19,9 +19,15 @@ class Tank extends Hero {
         };
     }
 
-    public Skill[] getSkillsArray() {
-        return skill;
+     public double getAttackMultiplier() {
+        return 0.8;
     }
+
+
+    public int getDefense() {
+        return 20;
+    }
+
 
     public boolean isTank() {
         return true;

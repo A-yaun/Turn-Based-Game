@@ -637,7 +637,7 @@ public class GameGUI extends JFrame {
         }
         
         if (currentPlayerIndex >= 3) {
-            // Add 10 mana to all heroes at the start of each new round
+            
             System.out.println("=== NEW ROUND - Adding 10 mana to all heroes ===");
             for (Hero hero : myTeam) {
                 if (hero != null && hero.isAlive()) {

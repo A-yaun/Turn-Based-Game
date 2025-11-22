@@ -21,7 +21,16 @@ class Archer extends Hero {
         return false;
     }
 
-    public Skill[] getSkillsArray() {
-        return skill;
+   
+     
+    public double getAttackMultiplier() {
+    
+        return 1.3;
+    }
+
+    
+    public int getDefense() {
+       
+        return 5;
     }
 }

@@ -19,8 +19,13 @@ class Assassin extends Hero {
         };
     }
 
-    public Skill[] getSkillsArray() {
-        return skill;
+    public double getAttackMultiplier() {
+        return 1.5;
+    }
+
+    
+    public int getDefense() {
+        return 3;
     }
 
     public boolean isTank() {

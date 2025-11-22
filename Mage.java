@@ -23,7 +23,12 @@ class Mage extends Hero {
         };
     }
 
-    public Skill[] getSkillsArray() {
-        return skill;
+   public double getAttackMultiplier() {
+        return 1.0;
+    }
+
+    
+    public int getDefense(){
+        return 8;
     }
 }
