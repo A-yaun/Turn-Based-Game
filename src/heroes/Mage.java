@@ -1,4 +1,7 @@
-class Mage extends Hero {
+package heroes;           
+import skills.Skill;
+
+public class Mage extends Hero {
     private static final int default_hp = 120;
     private static final int default_mp = 200;
 

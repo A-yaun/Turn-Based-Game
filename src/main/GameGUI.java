@@ -1,6 +1,8 @@
-import javax.swing.*;
+package main;             
+import heroes.*;          
+import skills.Skill;      
+import javax.swing.*;     
 import java.awt.*;
-
 class ImageBackgroundPanel extends JPanel {
     private Image backgroundImage;
 
@@ -863,7 +865,4 @@ public class GameGUI extends JFrame {
         b.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(GameGUI::new);
-    }
 }

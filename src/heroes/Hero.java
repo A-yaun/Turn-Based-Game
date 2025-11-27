@@ -1,8 +1,12 @@
-abstract class Hero {
+
+package heroes;
+import skills.Skill;
+
+public abstract class Hero {
     protected String name;
     protected int hp;
     protected int mp;
-    protected Skill[] skill;
+    public Skill[] skill;
     protected boolean isAlive;
 
     Hero(String name, int hp, int mp) {

@@ -1,4 +1,7 @@
-class Archer extends Hero {
+package heroes;           
+import skills.Skill;
+
+public class Archer extends Hero {
     private static final int default_hp = 160;
     private static final int default_mp = 140;
 

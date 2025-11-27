@@ -1,4 +1,7 @@
-class Tank extends Hero {
+package heroes;           
+import skills.Skill;
+
+public class Tank extends Hero {
     private static final int default_hp = 300;
     private static final int default_mp = 100;
 

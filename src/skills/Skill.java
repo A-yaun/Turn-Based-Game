@@ -1,7 +1,9 @@
+package skills;
+
 public class Skill {
-    String name;
-    int manacomp;
-    int damage;
+    public String name;
+    public int manacomp;
+    public int damage;
 
     public Skill(String name, int damage, int manacomp) {
         this.name = name;

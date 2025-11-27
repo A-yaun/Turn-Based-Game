@@ -1,4 +1,7 @@
-class Assassin extends Hero {
+package heroes;           
+import skills.Skill;
+
+public class Assassin extends Hero {
     private static final int default_hp = 150;
     private static final int default_mp = 120;
 
